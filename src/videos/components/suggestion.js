@@ -7,18 +7,23 @@ import {
 } from 'react-native'
 
 export default function Suggestion (props) {
+  const { title, release_date, vote_average, poster_path, genres, genre_ids } = props
+  const year = new Date(release_date).getFullYear()
+  const genre = genres.find(({ id }) => id === genre_ids[0])
+  const genreName = genre ? genre.name : ''
+
   return (
     <View style={styles.container}>
       <View style={styles.left}>
-        <Image style={styles.cover} source={require('../../../assets/logo.png')} />
+        <Image style={styles.cover} source={{ uri: `https://image.tmdb.org/t/p/w200/${poster_path}` }} />
         <View style={styles.genre}>
-          <Text style={styles.genreText}>Acción</Text>
+          <Text style={styles.genreText}>{genreName}</Text>
         </View>
       </View>
       <View style={styles.right}>
-        <Text style={styles.title}>Avengers</Text>
-        <Text style={styles.year}>2007</Text>
-        <Text style={styles.rating}>5 estrellas</Text>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.year}>{year}</Text>
+        <Text style={styles.rating}>{vote_average} de puntuacion</Text>
       </View>
     </View>
   )

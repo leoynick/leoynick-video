@@ -8,25 +8,18 @@ import Suggestion from '../components/suggestion'
 
 const renderEmpty = () => <Empty text='No hay ningun elemento' />
 const itemSeparator = () => <Separator />
-const renderSuggestion = ({ item }) => <Suggestion {...item} />
+const keyExtractor = item => item.id.toString()
 
-export const SuggestionList = () => {
-  const list = [
-    {
-      title: 'Yannick',
-      key: 1
-    },
-    {
-      title: 'Laura',
-      key: 2
-    }
-  ]
+export const SuggestionList = ({ list, genres }) => {
+  const renderSuggestion = ({ item }) => <Suggestion {...item} genres={genres} />
   return (
     <Layout title='Sugerencias para ti'>
       <FlatList
         data={list}
-        ListEmptyComponent={renderEmpty}
+        genres={genres}
         ItemSeparatorComponent={itemSeparator}
+        keyExtractor={keyExtractor}
+        ListEmptyComponent={renderEmpty}
         renderItem={renderSuggestion}
       />
     </Layout>
