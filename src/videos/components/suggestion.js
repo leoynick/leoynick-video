@@ -7,10 +7,11 @@ import {
 } from 'react-native'
 
 export default function Suggestion (props) {
-  const { title, release_date, vote_average, poster_path, genres, genre_ids } = props
+  const { title, original_title, release_date, vote_average, poster_path, genres, genre_ids } = props
   const year = new Date(release_date).getFullYear()
   const genre = genres.find(({ id }) => id === genre_ids[0])
   const genreName = genre ? genre.name : ''
+  const titleName = title || original_title
 
   return (
     <View style={styles.container}>
@@ -21,9 +22,9 @@ export default function Suggestion (props) {
         </View>
       </View>
       <View style={styles.right}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>{titleName}</Text>
         <Text style={styles.year}>{year}</Text>
-        <Text style={styles.rating}>{vote_average} de puntuacion</Text>
+        <Text style={styles.rating}>{vote_average} ⭐️</Text>
       </View>
     </View>
   )
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
   left: {},
   right: {
     paddingLeft: 10,
+    paddingVertical: 5,
     justifyContent: 'space-between'
   },
   title: {

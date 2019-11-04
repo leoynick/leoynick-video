@@ -11,27 +11,37 @@ import React, { useEffect, useState } from 'react'
 import Home from './src/screens/containers/home'
 import Header from './src/sections/components/header'
 import SuggestionList from './src/videos/containers/suggestion-list'
+import CategoryList from './src/videos/containers/category-list'
 import Api from './src/utils/api'
 
 export default () => {
-  const [list, setList] = useState([])
+  const [suggestion, setSuggestion] = useState([])
+  const [listMovies, setListMovies] = useState([])
   const [genres, setGenres] = useState([])
 
   useEffect(() => {
-    Api.getSuggestion(475557)
-      .then(movies =>
-        setList(movies)
-      )
     Api.getGenres()
       .then(genres => setGenres(genres))
+    Api.getSuggestion(475557)
+      .then(suggestion => {
+        setSuggestion(suggestion.slice(0, 5))
+      })
+    Api.getListMovies()
+      .then(movies => {
+        setListMovies(movies)
+      })
   }, [])
 
   return (
     <>
       <Home>
         <Header />
+        <CategoryList
+          list={listMovies}
+          genres={genres}
+        />
         <SuggestionList
-          list={list}
+          list={suggestion}
           genres={genres}
         />
       </Home>
