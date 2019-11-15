@@ -8,11 +8,13 @@
 
 import React, { useEffect, useState } from 'react'
 
+import Api from './src/utils/api'
+
 import Home from './src/screens/containers/home'
 import Header from './src/sections/components/header'
 import SuggestionList from './src/videos/containers/suggestion-list'
 import CategoryList from './src/videos/containers/category-list'
-import Api from './src/utils/api'
+import Player from './src/player/containers/player'
 
 export default () => {
   const [suggestion, setSuggestion] = useState([])
@@ -36,6 +38,7 @@ export default () => {
     <>
       <Home>
         <Header />
+        <Player />
         <CategoryList
           list={listMovies}
           genres={genres}
