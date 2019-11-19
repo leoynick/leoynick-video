@@ -1,28 +1,58 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { StyleSheet, ActivityIndicator } from 'react-native'
 import Video from 'react-native-video'
 
 import Layout from '../components/layout'
+import ControlLayout from '../components/control-layout'
+import PlayPause from '../components/play-pause'
+import ProgressBar from '../components/progress-bar'
+import TimeLeft from '../components/time-left'
+import FullScrean from '../components/full-screan'
 
 const uri = 'https://ia601907.us.archive.org/17/items/BigBuckBunny_199/big_buck_bunny_240p_2mb.mp4'
 
+const secondsToTime = (milliseconds) => {
+  const divisorForMinutes = milliseconds % (60 * 60)
+  const minutes = Math.floor(divisorForMinutes / 60)
+  const divisorForSeconds = divisorForMinutes % 60
+  const seconds = Math.ceil(divisorForSeconds)
+  return minutes + ':' + seconds
+}
+
 export default function () {
   const [loading, setLoading] = useState(true)
+  const [paused, setPaused] = useState(false)
+  const [time, setTime] = useState({ progress: 0, timeLeft: 0 })
+  const element = useRef(null)
+
   const onBuffer = ({ isBuffering }) => setLoading(isBuffering)
+  const playPause = () => {
+    setPaused(!paused)
+  }
+  const onProgress = ({ currentTime, playableDuration }) => setTime({ progress: currentTime / playableDuration, timeLeft: playableDuration - currentTime })
 
   return (
     <Layout
       video={
         <Video
+          ref={element}
           source={{ uri: uri }}
           style={styles.video}
           resizeMode='contain'
           onBuffer={onBuffer}
+          paused={paused}
+          onProgress={onProgress}
         />
       }
       loading={loading}
-      loader={
-        <ActivityIndicator />
+      loader={<ActivityIndicator />}
+      controls={
+        <ControlLayout>
+          <PlayPause paused={paused} onPress={playPause} />
+          <ProgressBar progress={time.progress} />
+          <TimeLeft time={secondsToTime(time.timeLeft)} />
+          <FullScrean onPress={() => element.current.presentFullscreenPlayer()} />
+        </ControlLayout>
       }
     />
   )

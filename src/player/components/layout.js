@@ -12,6 +12,7 @@ export default function Layout (props) {
       </View>
       <View style={styles.overlay}>
         {props.loading && props.loader}
+        {props.controls}
       </View>
     </View>
   )

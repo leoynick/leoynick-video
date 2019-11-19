@@ -1,5 +1,5 @@
 const BASE_API = 'https://api.themoviedb.org/3'
-const API_KEY = ''
+const API_KEY = 'c17a7508d2b911da6fafa21cba817443'
 
 class Api {
   async getGenres () {
