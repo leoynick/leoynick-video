@@ -5,12 +5,12 @@ import {
   Text
 } from 'react-native'
 
-export default function Progressbar ({ time }) {
+export default function Progressbar ({ timeLeft }) {
   return (
     <View
       style={styles.container}
     >
-      <Text style={styles.time}>{time}</Text>
+      <Text style={styles.time}>{timeLeft}</Text>
     </View>
   )
 }

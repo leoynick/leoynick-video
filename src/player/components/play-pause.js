@@ -1,8 +1,6 @@
 import React from 'react'
 import {
   TouchableHighlight,
-  // TouchableOpacity,
-  // TouchableWithoutFeedback,
   StyleSheet,
   Text
 } from 'react-native'

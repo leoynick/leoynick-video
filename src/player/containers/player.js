@@ -9,7 +9,7 @@ import ProgressBar from '../components/progress-bar'
 import TimeLeft from '../components/time-left'
 import FullScrean from '../components/full-screan'
 
-const uri = 'https://ia601907.us.archive.org/17/items/BigBuckBunny_199/big_buck_bunny_240p_2mb.mp4'
+const uri = 'https://noesishosting.com/drive/videos/minecraft-indi.mp4'
 
 const secondsToTime = (milliseconds) => {
   const divisorForMinutes = milliseconds % (60 * 60)
@@ -22,14 +22,14 @@ const secondsToTime = (milliseconds) => {
 export default function () {
   const [loading, setLoading] = useState(true)
   const [paused, setPaused] = useState(false)
-  const [time, setTime] = useState({ progress: 0, timeLeft: 0 })
+  const [videoData, setVideoData] = useState({ currentTime: 0, timeLeft: 0 })
   const element = useRef(null)
 
   const onBuffer = ({ isBuffering }) => setLoading(isBuffering)
   const playPause = () => {
     setPaused(!paused)
   }
-  const onProgress = ({ currentTime, playableDuration }) => setTime({ progress: currentTime / playableDuration, timeLeft: playableDuration - currentTime })
+  const onProgress = ({ currentTime, playableDuration }) => setVideoData({ currentTime: currentTime / playableDuration, timeLeft: playableDuration - currentTime })
 
   return (
     <Layout
@@ -38,7 +38,6 @@ export default function () {
           ref={element}
           source={{ uri: uri }}
           style={styles.video}
-          resizeMode='contain'
           onBuffer={onBuffer}
           paused={paused}
           onProgress={onProgress}
@@ -49,8 +48,8 @@ export default function () {
       controls={
         <ControlLayout>
           <PlayPause paused={paused} onPress={playPause} />
-          <ProgressBar progress={time.progress} />
-          <TimeLeft time={secondsToTime(time.timeLeft)} />
+          <ProgressBar progress={videoData.currentTime} />
+          <TimeLeft timeLeft={secondsToTime(videoData.timeLeft)} />
           <FullScrean onPress={() => element.current.presentFullscreenPlayer()} />
         </ControlLayout>
       }
